@@ -32,6 +32,16 @@
           <p class="comment">手書きのコメントです。</p>
         </article>
       </section>
+      <form class="formWrapper">
+        <div>
+          <input type="submit" value="書き込む">
+          <label>名前：</label>
+          <input type="text">
+        </div>
+        <div>
+          <textarea class="commnetTextArea"></textarea>
+        </div>
+      </form>
     </div>
   </div>
   
