@@ -1,6 +1,15 @@
 <!-- localhost:8080/2ch-bbs -->
+<?php
+if(isset($_POST["submitButton"])) {
+    $username = $_POST["username"];
+    var_dump($username);
+    $body = $_POST["body"];
+    var_dump($body);
+}
+
+?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -32,14 +41,14 @@
           <p class="comment">手書きのコメントです。</p>
         </article>
       </section>
-      <form class="formWrapper">
+      <form class="formWrapper" method="POST">
         <div>
-          <input type="submit" value="書き込む">
+          <input type="submit" value="書き込む" name="submitButton">
           <label>名前：</label>
-          <input type="text">
+          <input type="text" name="username">
         </div>
         <div>
-          <textarea class="commentTextArea"></textarea>
+          <textarea class="commentTextArea" name="body"></textarea>
         </div>
       </form>
     </div>
