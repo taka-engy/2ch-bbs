@@ -1,5 +1,8 @@
 <!-- localhost:8080/2ch-bbs -->
 <?php
+
+include_once("./app/database/connect.php");
+
 if(isset($_POST["submitButton"])) {
     $username = $_POST["username"];
     var_dump($username);
@@ -7,6 +10,16 @@ if(isset($_POST["submitButton"])) {
     var_dump($body);
 }
 
+$comment_array = " array";
+
+// コメントデータをテーブルから取得してくる
+$sql = "SELECT * FROM comment";
+$statement = $pdo->prepare($sql);
+$statement->execute();
+
+$comment_array = $statement;
+
+var_dump($comment_array->fetchAll());
 ?>
 <!DOCTYPE html>
 <html lang="ja">
