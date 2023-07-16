@@ -39,7 +39,7 @@
           <input type="text">
         </div>
         <div>
-          <textarea class="commnetTextArea"></textarea>
+          <textarea class="commentTextArea"></textarea>
         </div>
       </form>
     </div>
