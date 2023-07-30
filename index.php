@@ -3,10 +3,22 @@
 
 include_once("./app/database/connect.php");
 
+$error_message = array();
+
 
 if(isset($_POST["submitButton"])) {
 
-  // formの値を取得
+  if(empty($_POST["username"])) {
+    $error_message["username"] = "お名前を入力してください";
+  } 
+
+  if(empty($_POST["body"])) {
+    $error_message["body"] = "コメントを入力してください";
+  } 
+
+  if(empty($error_message)) {
+
+      // formの値を取得
   $name = $_POST['username'];
   var_dump($name);
   $body = $_POST['body'];
@@ -34,6 +46,8 @@ if(isset($_POST["submitButton"])) {
   // $statement->bindParam(":post_date", $post_date, PDO::PARAM_STR);
 
   $statement->execute();
+
+  }
   
 }
 
@@ -63,6 +77,16 @@ $comment_array = $statement;
     <h1 class="title">２ちゃんねる掲示板</h1>
     <hr>
   </header>
+
+  <!-- バリデーションチェックのエラー文はきだし -->
+  <?php if(isset($error_message)) :?>
+    <ul class="errorMessage">
+      <?php foreach($error_message as $error) :?>
+        <li><?php echo $error ?></li>
+      <?php endforeach; ?>
+    </ul>
+  <?php endif; ?>
+
 
   <!-- スレッドエリア -->
   <div class="treadWrapper">
