@@ -3,14 +3,41 @@
 
 include_once("./app/database/connect.php");
 
+
 if(isset($_POST["submitButton"])) {
-    $username = $_POST["username"];
-    var_dump($username);
-    $body = $_POST["body"];
-    var_dump($body);
+
+  // formの値を取得
+  $name = $_POST['username'];
+  var_dump($name);
+  $body = $_POST['body'];
+  var_dump($body);
+  $post_date = date("Y-m-d H:i:s");
+  var_dump($post_date);
+
+  //書き込むボタンを押したら設定された値をSQLに保存
+
+  $sql = "INSERT INTO `comment` (`id`, `username`, `body`, `post_date`) VALUES (NULL, '$name', '$body', '$post_date');";
+  $statement = $pdo->prepare($sql);
+
+  // --------------------ここから↓は未設定------------
+
+  // $sql = 'INSERT INTO comment (id, username, body, post_date) VALUES (:id, :username, :body, :post_date)'; // テーブルに登録するINSERT INTO文を変数に格納 VALUESはプレースフォルダーで空の値を入れとく
+  // $statement = $pdo->prepare($sql);
+
+  // $params = array(':id => $id,' :name => $name, :body => $body, :post_date => $post_date);
+
+  // var_dump($statement);
+
+  //値をセットする。
+  // $statement->bindParam(":username", $_POST["username"], PDO::PARAM_STR);
+  // $statement->bindParam(":body", $_POST["body"], PDO::PARAM_STR);
+  // $statement->bindParam(":post_date", $post_date, PDO::PARAM_STR);
+
+  $statement->execute();
+  
 }
 
-$comment_array = " array";
+$comment_array = array();
 
 // コメントデータをテーブルから取得してくる
 $sql = "SELECT * FROM comment";
@@ -20,7 +47,9 @@ $statement->execute();
 $comment_array = $statement;
 
 // var_dump($comment_array->fetchAll());
+
 ?>
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -56,7 +85,7 @@ $comment_array = $statement;
         </article>
         <?php endforeach ?>
       </section>
-      <form class="formWrapper" method="POST">
+      <form class="formWrapper" method="POST" autocomplete="off">
         <div>
           <input type="submit" value="書き込む" name="submitButton">
           <label>名前：</label>
