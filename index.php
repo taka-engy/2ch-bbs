@@ -3,70 +3,9 @@
 
 include_once("./app/database/connect.php");
 
-$error_message = array();
+include("app/functions/comment_add.php");
 
-
-if(isset($_POST["submitButton"])) {
-
-  if(empty($_POST["username"])) {
-    $error_message["username"] = "お名前を入力してください";
-  } else {
-    // エスケープ処理
-    $escaped["username"] =  htmlspecialchars($_POST["username"], ENT_QUOTES, "UTF-8");
-  }
-
-  if(empty($_POST["body"])) {
-    $error_message["body"] = "コメントを入力してください";
-  } else {
-    // エスケープ処理
-    $escaped["body"] =  htmlspecialchars($_POST["body"], ENT_QUOTES, "UTF-8");
-  }
-
-  if(empty($error_message)) {
-
-      // formの値を取得
-  $name = $escaped['username'];
-  var_dump($name);
-  $body = $escaped['body'];
-  var_dump($body);
-  $post_date = date("Y-m-d H:i:s");
-  var_dump($post_date);
-
-  //書き込むボタンを押したら設定された値をSQLに保存
-
-  $sql = "INSERT INTO `comment` (`id`, `username`, `body`, `post_date`) VALUES (NULL, '$name', '$body', '$post_date');";
-  $statement = $pdo->prepare($sql);
-
-  // --------------------ここから↓は未設定------------
-
-  // $sql = 'INSERT INTO comment (id, username, body, post_date) VALUES (:id, :username, :body, :post_date)'; // テーブルに登録するINSERT INTO文を変数に格納 VALUESはプレースフォルダーで空の値を入れとく
-  // $statement = $pdo->prepare($sql);
-
-  // $params = array(':id => $id,' :name => $name, :body => $body, :post_date => $post_date);
-
-  // var_dump($statement);
-
-  //値をセットする。
-  // $statement->bindParam(":username", $_POST["username"], PDO::PARAM_STR);
-  // $statement->bindParam(":body", $_POST["body"], PDO::PARAM_STR);
-  // $statement->bindParam(":post_date", $post_date, PDO::PARAM_STR);
-
-  $statement->execute();
-
-  }
-  
-}
-
-$comment_array = array();
-
-// コメントデータをテーブルから取得してくる
-$sql = "SELECT * FROM comment";
-$statement = $pdo->prepare($sql);
-$statement->execute();
-
-$comment_array = $statement;
-
-// var_dump($comment_array->fetchAll());
+include("app/functions/comment_get.php");
 
 ?>
 
@@ -79,54 +18,11 @@ $comment_array = $statement;
   <link rel="stylesheet" href="./assets/css/style.css">
 </head>
 <body>
-  <header>
-    <h1 class="title">２ちゃんねる掲示板</h1>
-    <hr>
-  </header>
+  <?php include("app/parts/header.php"); ?>
 
-  <!-- バリデーションチェックのエラー文はきだし -->
-  <?php if(isset($error_message)) :?>
-    <ul class="errorMessage">
-      <?php foreach($error_message as $error) :?>
-        <li><?php echo $error ?></li>
-      <?php endforeach; ?>
-    </ul>
-  <?php endif; ?>
+  <?php include("app/parts/validation.php"); ?>
 
+  <?php include("app/parts/thread.php"); ?>
 
-  <!-- スレッドエリア -->
-  <div class="treadWrapper">
-    <div class="childWrapper">
-      <div class="treadTitle">
-        <span> 【タイトル】 </span>
-        <h1>２ちゃんねる掲示板を作ってみた</h1>
-      </div>
-      <section>
-        <?php foreach($comment_array as $comment) :?>
-        <article>
-          <div class="wrapper">
-            <div class="nameArea">
-              <span>名前：</span>
-              <p class="username"><?php echo $comment["username"] ?></p>
-              <time>：<?php echo $comment["post_date"] ?></time>
-            </div>
-          </div>
-          <p class="comment"><?php echo $comment["body"] ?></p>
-        </article>
-        <?php endforeach ?>
-      </section>
-      <form class="formWrapper" method="POST" autocomplete="off">
-        <div>
-          <input type="submit" value="書き込む" name="submitButton">
-          <label>名前：</label>
-          <input type="text" name="username">
-        </div>
-        <div>
-          <textarea class="commentTextArea" name="body"></textarea>
-        </div>
-      </form>
-    </div>
-  </div>
-  
 </body>
 </html>

@@ -7,7 +7,7 @@ body {
   font-size: 34px;
 }
 
-.treadWrapper {
+.threadWrapper {
   background-color: #f3eded;
   padding: 10px;
   max-width: 1300px;
@@ -20,7 +20,7 @@ body {
   padding: 10px;
 }
 
-.treadTitle {
+.threadTitle {
   display: flex;
   align-items: center;
   font-weight: 600;
@@ -28,7 +28,7 @@ body {
   height: 60px;
 }
 
-.treadTitle h1 {
+.threadTitle h1 {
   color: red;
   margin-left: 3px;
   font-size: 27px;
