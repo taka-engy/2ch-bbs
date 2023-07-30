@@ -10,18 +10,24 @@ if(isset($_POST["submitButton"])) {
 
   if(empty($_POST["username"])) {
     $error_message["username"] = "お名前を入力してください";
-  } 
+  } else {
+    // エスケープ処理
+    $escaped["username"] =  htmlspecialchars($_POST["username"], ENT_QUOTES, "UTF-8");
+  }
 
   if(empty($_POST["body"])) {
     $error_message["body"] = "コメントを入力してください";
-  } 
+  } else {
+    // エスケープ処理
+    $escaped["body"] =  htmlspecialchars($_POST["body"], ENT_QUOTES, "UTF-8");
+  }
 
   if(empty($error_message)) {
 
       // formの値を取得
-  $name = $_POST['username'];
+  $name = $escaped['username'];
   var_dump($name);
-  $body = $_POST['body'];
+  $body = $escaped['body'];
   var_dump($body);
   $post_date = date("Y-m-d H:i:s");
   var_dump($post_date);
