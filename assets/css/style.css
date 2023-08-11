@@ -70,3 +70,23 @@ section .comment {
   color: red;
   margin-left: 30px;
 }
+
+/* 新規スレッド */
+.newThreadWrapper {
+  background-color: #b3eeb3;
+  padding: 10px;
+  margin: 0 auto;
+  max-width: 1300px;
+  border: 1px solid black;
+}
+
+.newChildTreadWrapper {
+  text-align: center;
+  padding: 10px;
+  border: 1px solid black;
+}
+
+.newChildTreadWrapper button a {
+  width: 150px;
+  color: black;
+}
