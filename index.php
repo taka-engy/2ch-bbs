@@ -1,3 +1,7 @@
+<?php
+// エラーを出力する
+ini_set('display_errors', "On");
+?>
 <!-- localhost:8080/2ch-bbs -->
 <?php
 
