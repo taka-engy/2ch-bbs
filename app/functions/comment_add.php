@@ -30,7 +30,7 @@ if(isset($_POST["submitButton"])) {
 
   //書き込むボタンを押したら設定された値をSQLに保存
 
-  $sql = "INSERT INTO `comment` (`id`, `username`, `body`, `post_date`) VALUES (NULL, '$name', '$body', '$post_date');";
+  $sql = "INSERT INTO `comment` (`id`, `username`, `body`, `post_date`, `thread_id`) VALUES (NULL, '$name', '$body', '$post_date', 2);";
   $statement = $pdo->prepare($sql);
 
   // --------------------ここから↓は未設定------------
