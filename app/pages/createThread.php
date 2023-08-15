@@ -5,6 +5,7 @@ ini_set('display_errors', "On");
 <!-- localhost:8080/2ch-bbs -->
 <?php
 include_once("../database/connect.php");
+include("../../app/functions/thread_add.php");
 ?>
 
 <!DOCTYPE html>
@@ -32,7 +33,7 @@ include_once("../database/connect.php");
     <div>
       <textarea name="submit" class="commentTextArea"></textarea>
     </div>
-    <input type="submit" value="立ち上げ" name="commentTextArea">
+    <input type="submit" value="立ち上げ" name="threadSubmitButton">
   </form>
 </body>
 </html>
