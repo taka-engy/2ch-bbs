@@ -28,7 +28,7 @@ if(isset($_POST["threadSubmitButton"])) {
   if(empty($error_message)) {
 
       // formの値を取得
-  $name = $escaped['title'];
+  $title = $escaped['title'];
   var_dump($title);
   $post_date = date("Y-m-d H:i:s");
   var_dump($post_date);
