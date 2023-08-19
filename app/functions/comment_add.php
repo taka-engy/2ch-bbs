@@ -22,15 +22,15 @@ if(isset($_POST["submitButton"])) {
 
       // formの値を取得
   $name = $escaped['username'];
-  var_dump($name);
+  // var_dump($name);
   $body = $escaped['body'];
-  var_dump($body);
+  // var_dump($body);
   $post_date = date("Y-m-d H:i:s");
-  var_dump($post_date);
-
+  // var_dump($post_date);
+  
   //書き込むボタンを押したら設定された値をSQLに保存
 
-  $sql = "INSERT INTO `comment` (`id`, `username`, `body`, `post_date`, `thread_id`) VALUES (NULL, '$name', '$body', '$post_date', 2);";
+  $sql = "INSERT INTO `comment` (`id`, `username`, `body`, `post_date`, `thread_id`) VALUES (NULL, '$name', '$body', '$post_date', 1);";
   $statement = $pdo->prepare($sql);
 
   // --------------------ここから↓は未設定------------
@@ -50,5 +50,7 @@ if(isset($_POST["submitButton"])) {
   $statement->execute();
 
   }
-  
+
+  //掲示板にページを移動する
+  header("Location: http://localhost:8080/2ch-bbs");
 }

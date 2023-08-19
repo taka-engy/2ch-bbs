@@ -31,7 +31,7 @@ include("../../app/functions/thread_add.php");
       <input type="text" name="username">
     </div>
     <div>
-      <textarea name="submit" class="commentTextArea"></textarea>
+      <textarea class="commentTextArea" name="body"></textarea>
     </div>
     <input type="submit" value="立ち上げ" name="threadSubmitButton">
   </form>
