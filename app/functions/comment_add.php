@@ -9,6 +9,7 @@ if(isset($_POST["submitButton"])) {
   } else {
     // エスケープ処理
     $escaped["username"] =  htmlspecialchars($_POST["username"], ENT_QUOTES, "UTF-8");
+    $_SESSION["username"] = $escaped["username"];
   }
 
   if(empty($_POST["body"])) {
@@ -28,28 +29,21 @@ if(isset($_POST["submitButton"])) {
   $post_date = date("Y-m-d H:i:s");
   // var_dump($post_date);
   $thread_id = $_POST["threadID"];
-  
-  //書き込むボタンを押したら設定された値をSQLに保存
 
-  $sql = "INSERT INTO `comment` (`id`, `username`, `body`, `post_date`, `thread_id`) VALUES (NULL, '$name', '$body', '$post_date', '$thread_id');";
-  $statement = $pdo->prepare($sql);
+  // トランザクション開始
+  $pdo->beginTransaction();
 
-  // --------------------ここから↓は未設定------------
+  try {
+          //書き込むボタンを押したら設定された値をSQLに保存
+      $sql = "INSERT INTO `comment` (`id`, `username`, `body`, `post_date`, `thread_id`) VALUES (NULL, '$name', '$body', '$post_date', '$thread_id');";
+      $statement = $pdo->prepare($sql);
 
-  // $sql = 'INSERT INTO comment (id, username, body, post_date) VALUES (:id, :username, :body, :post_date)'; // テーブルに登録するINSERT INTO文を変数に格納 VALUESはプレースフォルダーで空の値を入れとく
-  // $statement = $pdo->prepare($sql);
+      $statement->execute();
 
-  // $params = array(':id => $id,' :name => $name, :body => $body, :post_date => $post_date);
-
-  // var_dump($statement);
-
-  //値をセットする。
-  // $statement->bindParam(":username", $_POST["username"], PDO::PARAM_STR);
-  // $statement->bindParam(":body", $_POST["body"], PDO::PARAM_STR);
-  // $statement->bindParam(":post_date", $post_date, PDO::PARAM_STR);
-
-  $statement->execute();
-
+      $pdo->commit();
+    } catch (Exception $error) {
+      $pdo->rollback();
+    }
   }
 
   $pdo = null;

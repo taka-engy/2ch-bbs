@@ -37,19 +37,27 @@ if(isset($_POST["threadSubmitButton"])) {
     $post_date = date("Y-m-d H:i:s");
     var_dump($post_date);
 
-    //スレッドを追加
-    $sql = "INSERT INTO `thread` (`id`, `title`) VALUES (NULL, '$title');";
-    $statement = $pdo->prepare($sql);
+    // トランザクション開始
+  $pdo->beginTransaction();
 
-    $statement->execute();
+  try {
+        //スレッドを追加
+        $sql = "INSERT INTO `thread` (`id`, `title`) VALUES (NULL, '$title');";
+        $statement = $pdo->prepare($sql);
+    
+        $statement->execute();
+    
+        // コメントも追加
+        $sql = "INSERT INTO `comment` (`id`, `username`, `body`, `post_date`, `thread_id`) 
+        VALUES (NULL, '$name', '$body', '$post_date', (SELECT `id` FROM `thread` WHERE `title` = '$title'))";
+        $statement = $pdo->prepare($sql);
+    
+        $statement->execute();
 
-    // コメントも追加
-    $sql = "INSERT INTO `comment` (`id`, `username`, `body`, `post_date`, `thread_id`) 
-    VALUES (NULL, '$name', '$body', '$post_date', (SELECT `id` FROM `thread` WHERE `title` = '$title'))";
-    $statement = $pdo->prepare($sql);
-
-    $statement->execute();
-
+        $pdo->commit();
+    } catch (Exception $error) {
+        $pdo->rollBack();
+    }
   }
 
   //掲示板にページを移動する
